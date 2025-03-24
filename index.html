@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Products E-Commerce</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #ff6f61;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            margin: 0 15px;
+            color: white;
+            text-decoration: none;
+        }
+        section {
+            padding: 20px;
+            margin: 20px;
+            background: white;
+            border-radius: 5px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+        .cart-info {
+            margin: 20px;
+            font-size: 18px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #ff6f61;
+            color: white;
+        }
+        .quantity-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .quantity-controls button {
+            margin: 0 5px;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .contact-form {
+            margin-top: 20px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .contact-form button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .contact-form button:hover {
+            background-color: #e55a50;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Beauty Products</h1>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+        <a href="#total-purchases">Total Purchases</a>
+    </nav>
+</header>
+
+<section id="about">
+    <h2>About Our Beauty Products</h2>
+    <p>Welcome to our beauty products store! We offer a wide range of high-quality beauty products designed to enhance your natural beauty. Our products are made with the finest ingredients to ensure that you look and feel your best. Whether you're looking for skincare, makeup, or hair care, we have something for everyone. Explore our collection and discover the perfect products for your beauty routine!</p>
+</section>
+
+<section id="products">
+    <h2>Our Products</h2>
+    <div class="cart-info">
+        <span id="cart-count">Items in Cart: 0</span> | 
+        <span id="total-cost">Total Cost: ₹0</span>
+    </div>
+
+    <!-- Product 1 -->
+    <div class="product" data-price="500">
+        <h3>Moisturizing Cream</h3>
+        <img src="mc.jpg" alt="Moisturizing Cream">
+        <p>Price: ₹500</p>
+        <p>A rich cream that hydrates and nourishes your skin, leaving it soft and supple.</p>
+        <div class="quantity-controls">
+            <button onclick="changeQuantity('moisturizing-cream', -1)">-</button>
+            <span id="moisturizing-cream-quantity">0</span>
+            <button onclick="changeQuantity('moisturizing-cream', 1)">+</button>
+        </div>
+        <button onclick="addToCart('Moisturizing Cream', 500)">Add to Cart</button>
+ <button onclick="buyNow('Moisturizing Cream', 500)">Buy Now</button>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product" data-price="300">
+        <h3>Revitalizing Serum</h3>
+        <img src="rs.jpg" alt="Revitalizing Serum">
+        <p>Price: ₹300</p>
+        <p>A lightweight serum that revitalizes and brightens your skin for a youthful glow.</p>
+        <div class="quantity-controls">
+            <button onclick="changeQuantity('revitalizing-serum', -1)">-</button>
+            <span id="revitalizing-serum-quantity">0</span>
+            <button onclick="changeQuantity('revitalizing-serum', 1)">+</button>
+        </div>
+        <button onclick="addToCart('Revitalizing Serum', 300)">Add to Cart</button>
+        <button onclick="buyNow('Revitalizing Serum', 300)">Buy Now</button>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product" data-price="700">
+        <h3>Luxury Face Mask</h3>
+        <img src="fc.jpg" alt="Luxury Face Mask">
+        <p>Price: ₹700</p>
+        <p>A luxurious face mask that deeply cleanses and rejuvenates your skin.</p>
+        <div class="quantity-controls">
+            <button onclick="changeQuantity('luxury-face-mask', -1)">-</button>
+            <span id="luxury-face-mask-quantity">0</span>
+            <button onclick="changeQuantity('luxury-face-mask', 1)">+</button>
+        </div>
+        <button onclick="addToCart('Luxury Face Mask', 700)">Add to Cart</button>
+        <button onclick="buyNow('Luxury Face Mask', 700)">Buy Now</button>
+    </div>
+
+
+<section id="contact">
+    <h2>Contact Us</h2>
+    <form class="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+<footer>
+    <p>&copy; 2025 Beauty Products. All rights reserved.</p>
+</footer>
+
+<script>
+    let cart = {};
+    let totalCost = 0;
+
+    function changeQuantity(product, change) {
+        const quantityElement = document.getElementById(`${product}-quantity`);
+        let quantity = parseInt(quantityElement.innerText);
+        quantity += change;
+        if (quantity < 0) quantity = 0;
+        quantityElement.innerText = quantity;
+        updateCart(product, quantity);
+    }
+
+    function updateCart(product, quantity) {
+        if (quantity === 0) {
+            delete cart[product];
+        } else {
+            cart[product] = quantity;
+        }
+        updateCartInfo();
+    }
+
+    function addToCart(productName, price) {
+        const quantity = document.getElementById(`${productName.toLowerCase().replace(/ /g, '-')}-quantity`).innerText;
+        if (quantity > 0) {
+            cart[productName] = parseInt(quantity);
+        }
+        updateCartInfo();
+    }
+
+    function buyNow(productName, price) {
+        alert(`You have purchased ${productName} for ₹${price}.`);
+        cart = {};
+        totalCost = 0;
+        updateCartInfo();
+    }
+
+    function updateCartInfo() {
+        let itemCount = 0;
+        totalCost = 0;
+        for (const product in cart) {
+            itemCount += cart[product];
+            totalCost += cart[product] * document.querySelector(`.product h3:contains('${product}')`).parentElement.dataset.price;
+        }
+        document.getElementById('cart-count').innerText = `Items in Cart: ${itemCount}`;
+        document.getElementById('total-cost').innerText = `Total Cost: ₹${totalCost}`;
+    }
+</script>
+
+</body>
+</html>
